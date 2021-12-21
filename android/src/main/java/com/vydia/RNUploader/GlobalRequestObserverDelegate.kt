@@ -24,6 +24,7 @@ class GlobalRequestObserverDelegate(reactContext: ReactApplicationContext) : Req
   override fun onError(context: Context, uploadInfo: UploadInfo, exception: Throwable) {
     val params = Arguments.createMap()
     params.putString("id", uploadInfo.uploadId)
+    params.putString("responseCode", exception.serverResponse.code)
 
     // Make sure we do not try to call getMessage() on a null object
     if (exception != null) {

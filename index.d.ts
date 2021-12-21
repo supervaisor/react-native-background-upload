@@ -10,6 +10,7 @@ declare module "react-native-background-upload" {
     }
 
     export interface ErrorData extends EventData {
+        responseCode: number
         error: string
     }
 
@@ -119,6 +120,7 @@ declare module "react-native-background-upload" {
         static addListener(event: 'cancelled', uploadId: uploadId | null, callback: (data: EventData) => void): EventSubscription
         static getFileInfo(path: string): Promise<FileInfo>
         static cancelUpload(uploadId: uploadId): Promise<boolean>
+        static stopAllUploads = (): Promise<boolean>
     }
 
 }

@@ -50,7 +50,7 @@ Returns an object:
 The promise should never be rejected.
 */
 export const getFileInfo = (path: string): Promise<Object> => {
-  return NativeModule.getFileInfo(path).then(data => {
+  return NativeModule.getFileInfo(path).then((data) => {
     if (data.size) {
       // size comes back as a string on android so we convert it here.  if it's already a number this won't hurt anything
       data.size = +data.size;
@@ -99,6 +99,12 @@ export const cancelUpload = (cancelUploadId: string): Promise<boolean> => {
 };
 
 /*
+Stop all uploads
+*/
+export const stopAllUploads = (): Promise<boolean> =>
+  NativeModule.stopAllUploads();
+
+/*
 Listens for the given event on the given upload ID (resolved from startUpload).
 If you don't supply a value for uploadId, the event will fire for all uploads.
 Events (id is always the upload ID):
@@ -112,11 +118,17 @@ export const addListener = (
   uploadId: string,
   listener: Function,
 ) => {
-  return DeviceEventEmitter.addListener(eventPrefix + eventType, data => {
+  return DeviceEventEmitter.addListener(eventPrefix + eventType, (data) => {
     if (!uploadId || !data || !data.id || data.id === uploadId) {
       listener(data);
     }
   });
 };
 
-export default { startUpload, cancelUpload, addListener, getFileInfo };
+export default {
+  startUpload,
+  cancelUpload,
+  stopAllUploads,
+  addListener,
+  getFileInfo,
+};
